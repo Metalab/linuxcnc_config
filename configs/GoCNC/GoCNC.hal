@@ -1,4 +1,4 @@
-# Erstellt von stepconf am Tue Oct 29 20:17:55 2013
+# Erstellt von stepconf am Thu Oct 31 21:51:41 2013
 # Änderungen an dieser Datei werden beim nächsten
 # Aufruf von stepconf überschrieben.
 loadrt trivkins
@@ -86,3 +86,5 @@ net tool-change iocontrol.0.tool-change => hal_manualtoolchange.change
 net tool-changed iocontrol.0.tool-changed <= hal_manualtoolchange.changed
 net tool-number iocontrol.0.tool-prep-number => hal_manualtoolchange.number
 net tool-prepare-loopback iocontrol.0.tool-prepare => iocontrol.0.tool-prepared
+
+loadusr -W hal_input -KRAL X-Box
