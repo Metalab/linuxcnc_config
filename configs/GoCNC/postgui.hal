@@ -35,10 +35,13 @@ net joy-speed-res halui.jog-speed <= mux4.0.out
 
 # use to set the jog speed by default and static
 #setp halui.jog-speed 600
+
+# analog control of axis
 net joy-x-jog halui.jog.0.analog <= input.0.abs-x-position 
 net joy-y-jog halui.jog.1.analog <= input.0.abs-y-position 
 net joy-z-jog halui.jog.2.analog <= input.0.abs-ry-position 
 
+# digital control of axis
 net joy-x-minus halui.jog.0.minus <= input.0.abs-hat0x-is-neg
 net joy-x-plus halui.jog.0.plus <= input.0.abs-hat0x-is-pos
 
@@ -47,3 +50,6 @@ net joy-y-plus halui.jog.1.plus <= input.0.abs-hat0y-is-pos
 
 net joy-z-minus halui.jog.2.minus <= input.0.btn-tl
 net joy-z-plus halui.jog.2.plus <= input.0.btn-tr
+
+# home all the axis
+net home-all-axis halui.home-all <= input.0.btn-back
