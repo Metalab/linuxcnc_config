@@ -9,6 +9,7 @@ setp parport.0.reset-time 3000
 loadrt stepgen step_type=0,0,0
 loadrt abs count=1
 loadrt charge_pump
+loadrt pwmgen output_type=0
 net estop-out charge-pump.enable iocontrol.0.user-enable-out
 net charge-pump <= charge-pump.out
 
@@ -18,18 +19,31 @@ addf charge-pump base-thread
 addf parport.0.write base-thread
 addf parport.0.reset base-thread
 
+# pwm spindle stuff
+addf pwmgen.update servo-thread
+addf pwmgen.make-pulses base-thread
+
+net spindle-speed-cmd motion.spindle-speed-out => pwmgen.0.value
+net spindle-on motion.spindle-on => pwmgen.0.enable
+net spindle-pwm pwmgen.0.pwm => parport.0.pin-17-out # we can control PWM on Pin 17 and still have Pin 1 for Relay 1!
+# max speed is 26000 min^-1
+setp pwmgen.0.scale 26000
+
 addf stepgen.capture-position servo-thread
 addf motion-command-handler servo-thread
 addf motion-controller servo-thread
 addf stepgen.update-freq servo-thread
 addf abs.0 servo-thread
-net spindle-cmd <= motion.spindle-speed-out
-net spindle-on <= motion.spindle-on
+#net spindle-cmd <= motion.spindle-speed-out
+#net spindle-on <= motion.spindle-on
 net coolant-mist <= iocontrol.0.coolant-mist
+
+
 
 net probe-in => motion.probe-input
 
-net spindle-on => parport.0.pin-01-out
+# we can use pin 1 for something different :)
+# net spindle-on => parport.0.pin-01-out
 setp parport.0.pin-02-out-invert 1
 net xdir => parport.0.pin-02-out
 net xstep => parport.0.pin-03-out
