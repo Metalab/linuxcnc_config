@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<interface>
+  <!-- interface-requires gladevcp 0.0 -->
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy project-wide -->
+  <object class="GtkWindow" id="window1">
+    <child>
+      <object class="GtkVBox" id="vbox1">
+        <property name="visible">True</property>
+        <property name="spacing">2</property>
+
+	<!-- SPINDLE SPEED FRAME -->
+        <child>
+          <object class="GtkFrame" id="frame1">
+            <property name="visible">True</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">none</property>
+            <child>
+              <object class="GtkAlignment" id="alignment1">
+                <property name="visible">True</property>
+                <property name="left_padding">12</property>
+                <property name="right_padding">12</property>
+<property name="yalign">0</property>
+                <child>
+                  <object class="HAL_VBar" id="spindle-rpm-hbar">
+                    <property name="visible">True</property>
+                    <property name="z0_color">#0000ffff0000</property>
+                    <property name="z0_border">0.69999998807907104</property>
+                    <property name="z1_color">#ffffffff0000</property>
+                    <property name="bg_color">#bebebebebebe</property>
+                    <property name="z2_color">#ffff00000000</property>
+                    <property name="z1_border">0.89999997615814209</property>
+                    <property name="min">6000</property>
+                    <property name="max">24000</property>
+		<property name="force_width">50</property>
+
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label">
+              <object class="GtkLabel" id="label1text">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">&lt;b&gt;Spindel (1/min)&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+	<!-- END SPINDLE SPEED FRAME -->
+
+	<!-- VORSCHUB SPEED FRAME -->
+        <child>
+          <object class="GtkFrame" id="framevorschub">
+            <property name="visible">True</property>
+            <property name="label_xalign">0</property>
+            <property name="shadow_type">none</property>
+            <child>
+              <object class="GtkAlignment" id="alignmentvorschub">
+                <property name="visible">True</property>
+                <property name="left_padding">12</property>
+                <property name="right_padding">12</property>
+                <child>
+                  <object class="HAL_Meter" id="vorschub-meter">
+                    <property name="visible">True</property>
+                    <property name="z0_color">#0000ffff0000</property>
+                    <property name="z0_border">25</property>
+                    <property name="z1_color">#ffffffff0000</property>
+                    <property name="bg_color">#bebebebebebe</property>
+                    <property name="z2_color">#ffff00000000</property>
+                    <property name="z1_border">0.9</property>
+                    <property name="min">0</property>
+                    <property name="max">40</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+            <child type="label">
+              <object class="GtkLabel" id="labelvorschubtext">
+                <property name="visible">True</property>
+                <property name="label" translatable="yes">&lt;b&gt;Vorschub (m/min)&lt;/b&gt;</property>
+                <property name="use_markup">True</property>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+	<!-- END VORSCHUB SPEED FRAME -->
+      </object>
+    </child>
+  </object>
+</interface>
