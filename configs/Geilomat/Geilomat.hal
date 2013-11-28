@@ -26,6 +26,7 @@ addf pwmgen.make-pulses base-thread
 
 net spindle-speed-cmd motion.spindle-speed-out => pwmgen.0.value
 net spindle-on motion.spindle-on => pwmgen.0.enable
+net spindle-on => parport.0.pin-01-out
 net spindle-pwm pwmgen.0.pwm => parport.0.pin-17-out # we can control PWM on Pin 17 and still have Pin 1 for Relay 1!
 # max speed is 24000 min^-1
 setp pwmgen.0.scale 24000
@@ -63,7 +64,7 @@ setp parport.0.pin-07-out-reset 1
 
 # route Relay1 to Coolant Flood and Relay2 to Coolant Mist
 # It is configured like in the GUI. Mist is Relay 1 and Flood is relay 2
-net coolant-mist => parport.0.pin-01-out
+#net coolant-mist => parport.0.pin-01-out
 net coolant-flood => parport.0.pin-14-out
 # Watchdog
 net charge-pump => parport.0.pin-16-out
