@@ -51,5 +51,3 @@ net joy-y-plus halui.jog.1.plus <= input.0.abs-hat0y-is-pos
 net joy-z-minus halui.jog.2.minus <= input.0.btn-tl
 net joy-z-plus halui.jog.2.plus <= input.0.btn-tr
 
-# home all the axis
-net home-all-axis halui.home-all <= input.0.btn-back

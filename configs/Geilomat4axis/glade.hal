@@ -1,0 +1,6 @@
+# show the current spindle speed in the top hoizontal bar
+# we used the motion.spindle-speed thing allready in the main hal config, so use the netname here to map it
+net spindle-speed-cmd => gladevcp.spindle-rpm-hbar
+
+# show current velocity
+net req-vel motion.current-vel => gladevcp.vorschub-meter

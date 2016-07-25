@@ -1,0 +1,81 @@
+# we need two or functions and a 2bit multiplexer plus three scalers
+loadrt or2 count=2
+loadrt mux4 count=1
+loadrt scale count=3
+
+# now we add them to the slower realtime thread: servo-thread
+addf or2.0 servo-thread
+addf or2.1 servo-thread
+addf mux4.0 servo-thread
+addf scale.0 servo-thread
+addf scale.1 servo-thread
+addf scale.2 servo-thread
+
+# define speed settings
+setp mux4.0.in0 0   # we need a 0 setting here, to avoid motion unless something is pressed
+setp mux4.0.in1 50  # 50mm/min for "antasten"
+setp mux4.0.in2 600
+setp mux4.0.in3 2000 # rapid movement
+
+# define 3 net's that hold our button inputs and map them to the or functions
+# slow = X, medium = A, fast = B
+net pad-speed-slow or2.0.in0 input.0.btn-x
+net pad-speed-med or2.1.in0 input.0.btn-a
+net pad-speed-fast or2.0.in1 or2.1.in1 input.0.btn-b
+
+# Map will look like this:
+# Bit 1 | Bit 0 | Resulting Speed | Button Pressed
+# ------+-------+-----------------+---------------
+#   0   |   0   |        0        |     None
+#   0   |   1   |       10	      |      X		
+#   1   |   0   |      100        |      A
+#   1   |   1   |      600        |      B
+
+net joy-speed-1 mux4.0.sel0 <= or2.0.out
+net joy-speed-2 mux4.0.sel1 <= or2.1.out
+
+# map the result of the multiplexer to halui.jog-speed
+net joy-speed-res halui.jog-speed <= mux4.0.out
+
+# use to set the jog speed by default and static
+#setp halui.jog-speed 600
+
+##########################
+# analog control of axis #
+##########################
+
+### new model by Vic for more intuitive jog motion * 216-04-02 ###
+
+# set scaling factors for analog joystick
+net scaled-x scale.0.in <= input.0.abs-x-position
+setp scale.0.gain 1
+net scaled-y scale.1.in <= input.0.abs-y-position
+setp scale.1.gain -1
+net scaled-z scale.2.in <= input.0.abs-ry-position
+setp scale.2.gain -1
+
+# feed scaled signal into halui
+net joy-x-jog halui.jog.0.analog <= scale.0.out
+net joy-y-jog halui.jog.1.analog <= scale.1.out
+net joy-z-jog halui.jog.2.analog <= scale.2.out
+
+# digital control of axis
+net joy-x-minus halui.jog.0.minus <= input.0.abs-hat0x-is-neg
+net joy-x-plus halui.jog.0.plus <= input.0.abs-hat0x-is-pos
+
+net joy-y-minus halui.jog.1.minus <= input.0.abs-hat0y-is-pos
+net joy-y-plus halui.jog.1.plus <= input.0.abs-hat0y-is-neg
+
+net joy-z-minus halui.jog.2.minus <= input.0.btn-tr
+net joy-z-plus halui.jog.2.plus <= input.0.btn-tl
+
+
+######### END OF XBOX CONTROLLER CONFIG
+
+
+# show the current spindle speed in the top hoizontal bar
+# we used the motion.spindle-speed thing allready in the main hal config, so use the netname here to map it
+net spindle-speed-cmd => gladevcp.spindle-rpm-hbar
+
+# show current velocity
+net req-vel motion.current-vel => gladevcp.vorschub-meter
