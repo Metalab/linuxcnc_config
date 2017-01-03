@@ -4,7 +4,10 @@
 
 loadrt trivkins
 loadrt [EMCMOT]EMCMOT base_period_nsec=[EMCMOT]BASE_PERIOD servo_period_nsec=[EMCMOT]SERVO_PERIOD num_joints=[TRAJ]AXES
-loadrt probe_parport
+## This option seems to be obsolete on LinuxCNC 2.7.8
+## If you have problems starting it on an old version, just comment this back in
+# loadrt probe_parport
+
 loadrt hal_parport cfg="0x378 out  "
 setp parport.0.reset-time 3000
 loadrt stepgen step_type=0,0,0
@@ -140,4 +143,6 @@ net tool-number iocontrol.0.tool-prep-number => hal_manualtoolchange.number
 net tool-prepare-loopback iocontrol.0.tool-prepare => iocontrol.0.tool-prepared
 
 # Load XBox controller
+# One problem: If the controller is not plugged in,
+# LinuxCNC will not start
 loadusr -W hal_input -KRAL X-Box
